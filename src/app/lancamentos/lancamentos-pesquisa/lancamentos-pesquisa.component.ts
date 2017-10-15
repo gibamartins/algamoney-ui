@@ -1,27 +1,73 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+
+import { LazyLoadEvent, ConfirmationService } from 'primeng/components/common/api';
+
+import { ToastyService } from 'ng2-toasty';
+
+import { LancamentoService, LancamentoFiltro } from './../lancamento.service';
+import { ErrorHandlerService } from './../../core/error-handler.service';
 
 @Component({
   selector: 'app-lancamentos-pesquisa',
   templateUrl: './lancamentos-pesquisa.component.html',
   styleUrls: ['./lancamentos-pesquisa.component.css']
 })
-export class LancamentosPesquisaComponent {
+export class LancamentosPesquisaComponent implements OnInit {
 
-  lancamentos = [
-    { tipo: 'DESPESA', descricao: 'Compra de pão', dataVencimento: new Date(2017, 5, 30),
-      dataPagamento: null, valor: 4.55, pessoa: 'Padaria do José' },
-    { tipo: 'RECEITA', descricao: 'Venda de software', dataVencimento: new Date(2017, 5, 10),
-      dataPagamento: new Date(2017, 5, 30), valor: 80000, pessoa: 'Atacado Brasil' },
-    { tipo: 'DESPESA', descricao: 'Impostos', dataVencimento: new Date(2017, 6, 20),
-      dataPagamento: null, valor: 14312, pessoa: 'Ministério da Fazenda' },
-    { tipo: 'DESPESA', descricao: 'Mensalidade de escola', dataVencimento: new Date(2017, 5, 5),
-      dataPagamento: new Date(2017, 4, 30), valor: 800, pessoa: 'Escola Abelha Rainha' },
-    { tipo: 'RECEITA', descricao: 'Venda de carro', dataVencimento: new Date(2017, 7, 18),
-      dataPagamento: null, valor: 55000, pessoa: 'Sebastião Souza' },
-    { tipo: 'DESPESA', descricao: 'Aluguel', dataVencimento: new Date(2017, 6, 10),
-      dataPagamento: new Date(2017, 6, 9), valor: 1750, pessoa: 'Casa Nova Imóveis' },
-    { tipo: 'DESPESA', descricao: 'Mensalidade musculação', dataVencimento: new Date(2017, 6, 13),
-      dataPagamento: null, valor: 180, pessoa: 'Academia Top' }
-  ];
+  lancamentos = [];
+  totalDeRegistros = 0;
+  filtro = new LancamentoFiltro();
 
+  // Associa a variável tabela à variável #tabela na dataTable
+  @ViewChild('tabela')
+  grid;
+
+  constructor(
+    private lancamentoService: LancamentoService,
+    private errorHandle: ErrorHandlerService,
+    private toasty: ToastyService,
+    private confirmation: ConfirmationService) {}
+
+  ngOnInit() {
+  }
+
+  // o parâmetro pagina é por default = 0
+  pesquisar(pagina = 0) {
+    this.filtro.pagina = pagina;
+    
+    this.lancamentoService.pesquisar(this.filtro)
+    .then(dados => {
+      this.lancamentos = dados.lancamentos;
+      this.totalDeRegistros = dados.total
+    })
+    .catch(error => this.errorHandle.handle(error));
+  }
+
+  aoMudarPagina(event: LazyLoadEvent) {
+    const pagina = event.first / event.rows;
+    this.pesquisar(pagina);
+  }
+
+  confirmarExclusao(lancamento: any) {
+    this.confirmation.confirm({
+      message: 'Tem certeza que deseja excluir o lançamento?',
+      accept: () => {
+        this.excluir(lancamento);
+      }
+    });
+  }
+
+  excluir(lancamento: any) {
+    this.lancamentoService.delete(lancamento.codigo)
+      .then(() => {
+        if (this.grid.first === 0) {
+          this.pesquisar();
+        } else {
+          this.grid.first = 0;
+        }
+
+        this.toasty.success('Lançamento excluído com sucesso!');
+      })
+      .catch(error => this.errorHandle.handle(error));
+  }
 }

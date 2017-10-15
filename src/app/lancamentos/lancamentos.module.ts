@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+// Importa todos os componentes do primeng, inclusive os que não estão sendo utilizados
+// import { InputTextModule } from 'primeng/primeng';
+// Importa somente o componente inputtext
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { DropdownModule } from 'primeng/components/dropdown/dropdown';
 import { SelectButtonModule } from 'primeng/components/selectbutton/selectbutton';
