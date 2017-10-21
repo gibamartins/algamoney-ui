@@ -1,3 +1,4 @@
+import { Pessoa } from './../core/model';
 import { Injectable } from '@angular/core';
 import { Http, Headers, URLSearchParams } from '@angular/http';
 
@@ -51,11 +52,31 @@ export class PessoaService {
     .then(response => response.json().content);
   }
 
+  save(pessoa: Pessoa): Promise<Pessoa> {
+    const headers = new Headers();
+    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
+    headers.append('Content-Type', 'application/json');
+
+    return this.http.post(this.url, JSON.stringify(pessoa), { headers} )
+    .toPromise()
+    .then(response => response.json());
+  }
+
   delete(codigo: number): Promise<void> {
     const headers = new Headers();
     headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
 
-    return this.http.delete(`${this.url}/${codigo}x`, { headers} )
+    return this.http.delete(`${this.url}/${codigo}`, { headers} )
+    .toPromise()
+    .then(() => null);
+  }
+
+  alterarStatus(codigo: number, ativo: boolean): Promise<void> {
+    const headers = new Headers();
+    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
+    headers.append('Content-Type', 'application/json');
+
+    return this.http.put(`${this.url}/${codigo}/ativo`, ativo, { headers} )
     .toPromise()
     .then(() => null);
   }
