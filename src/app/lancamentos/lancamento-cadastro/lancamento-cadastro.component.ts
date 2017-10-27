@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { ToastyService } from 'ng2-toasty';
 
@@ -35,10 +35,11 @@ export class LancamentoCadastroComponent implements OnInit {
     private pessoaService: PessoaService,
     private toasty: ToastyService,
     private errorHandler: ErrorHandlerService,
-    private router: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit() {
-    const codigoLancamento = this.router.snapshot.params['codigo'];
+    const codigoLancamento = this.route.snapshot.params['codigo'];
 
     if (codigoLancamento) {
       this.carregarLancamento(codigoLancamento);
@@ -67,6 +68,28 @@ export class LancamentoCadastroComponent implements OnInit {
     .catch(erro => this.errorHandler.handle(erro));
   }
 
+  novo(form: FormControl) {
+    // É necessário limpar os dados do formulário, por que o
+    // router.navigate não limpará os dados caso o usuário esteja na
+    // mesma url.
+    // Ex.: Quando o usuário está na criação de lançamentos, preenche alguns dados
+    //      e clica no botão novo, ele NÃO está mudando a URL, então, o angular
+    //      NÃO considerará uma nova URL.
+    form.reset();
+
+    // Work around (para resolver o problema de limpar o formulário e perder os dados do new Lancamento)
+    // Para que o formulário não fique com o checkbox receita/despesa em branco,
+    // após o reset, é necessário fazer o seguinte:
+    setTimeout(function() {
+      this.lancamento = new Lancamento();
+    }.bind(this), 1);
+    // O bind(this), informa ao javascript que o this é do escopo da classe LancamentoCadastroComponent
+    // e não do método setTimeout.
+
+    // Vamos redirecionar para a tela de criação de lançamento.
+    this.router.navigate(['/lancamentos/novo']);
+  }
+
   salvar(form: FormControl){
     if (this.editando) {
       this.atualizarLancamento(form);
@@ -77,11 +100,13 @@ export class LancamentoCadastroComponent implements OnInit {
 
   private salvaLancamento(form: FormControl) {
     this.lancamentoService.save(this.lancamento)
-      .then(() => {
+      .then(lancamentoSalvo => {
         this.toasty.success('Lançamento cadastrado com sucesso!');
         // Limpa os dados do formulário
-        form.reset();
-        this.lancamento = new Lancamento();
+        //form.reset();
+        //this.lancamento = new Lancamento();
+        // Vamos redirecionar para a tela de edição do lançamento salvo.
+        this.router.navigate(['/lancamentos', lancamentoSalvo.codigo]);
       })
       .catch(erro => this.errorHandler.handle(erro));
   }

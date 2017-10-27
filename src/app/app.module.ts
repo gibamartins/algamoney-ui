@@ -16,6 +16,9 @@ import { LancamentosModule } from './lancamentos/lancamentos.module';
 import { PessoasModule } from './pessoas/pessoas.module';
 
 const routes: Routes = [
+  // Quando a url for somente o / ou nada (full = combinação, poderia ter um prefix),
+  // o angular redirecionará para a url lancamentos.
+  {path: '', redirectTo: 'lancamentos', pathMatch: 'full'},
   {path: 'lancamentos', component: LancamentosPesquisaComponent},
   {path: 'lancamentos/novo', component: LancamentoCadastroComponent},
   {path: 'lancamentos/:codigo', component: LancamentoCadastroComponent},
