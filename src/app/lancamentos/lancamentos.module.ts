@@ -44,9 +44,11 @@ import { LancamentoCadastroComponent } from './lancamento-cadastro/lancamento-ca
     LancamentosGridComponent,
     LancamentosPesquisaComponent
   ],
+  // Com a configuração das Rotas, não é mais necessário
+  // exportar os módulos
   exports:[
-    LancamentoCadastroComponent,
-    LancamentosPesquisaComponent
+    //LancamentoCadastroComponent,
+    //LancamentosPesquisaComponent
   ]
 })
 export class LancamentosModule { }

@@ -37,9 +37,11 @@ import { PessoaCadastroComponent } from './pessoa-cadastro/pessoa-cadastro.compo
     PessoasPesquisaComponent,
     PessoasGridComponent
   ],
+  // Com a configuração das Rotas, não é mais necessário
+  // exportar os módulos
   exports: [
-    PessoaCadastroComponent,
-    PessoasPesquisaComponent
+    //PessoaCadastroComponent,
+    //PessoasPesquisaComponent
   ]
 })
 export class PessoasModule { }
