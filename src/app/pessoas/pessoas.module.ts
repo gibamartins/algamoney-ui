@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 
 import { InputMaskModule } from 'primeng/components/inputmask/inputmask';
 import { DataTableModule } from 'primeng/components/datatable/datatable';
@@ -15,12 +14,12 @@ import { SharedModule } from './../shared/shared.module';
 import { PessoasPesquisaComponent } from './pessoas-pesquisa/pessoas-pesquisa.component';
 import { PessoasGridComponent } from './pessoas-grid/pessoas-grid.component';
 import { PessoaCadastroComponent } from './pessoa-cadastro/pessoa-cadastro.component';
+import { PessoasRoutingModule } from './pessoas-routing.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule,
 
     InputTextModule,
     ButtonModule,
@@ -30,15 +29,15 @@ import { PessoaCadastroComponent } from './pessoa-cadastro/pessoa-cadastro.compo
     SelectButtonModule,
     DropdownModule,
 
-    SharedModule
+    SharedModule,
+    PessoasRoutingModule
   ],
   declarations: [
     PessoaCadastroComponent,
     PessoasPesquisaComponent,
     PessoasGridComponent
   ],
-  // Com a configuração das Rotas, não é mais necessário
-  // exportar os módulos
+  // Com a configuração das Rotas, não é mais necessário exportar os módulos
   exports: [
     //PessoaCadastroComponent,
     //PessoasPesquisaComponent

@@ -21,11 +21,12 @@ import { LancamentosPesquisaComponent } from './lancamentos-pesquisa/lancamentos
 import { LancamentosGridComponent } from './lancamentos-grid/lancamentos-grid.component';
 import { LancamentoCadastroComponent } from './lancamento-cadastro/lancamento-cadastro.component';
 
+import { LacamentosRoutingModule } from './lancamentos-routing.module';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule,
 
     InputTextModule,
     ButtonModule,
@@ -37,7 +38,8 @@ import { LancamentoCadastroComponent } from './lancamento-cadastro/lancamento-ca
     DropdownModule,
 
     CurrencyMaskModule,
-    SharedModule
+    SharedModule,
+    LacamentosRoutingModule
   ],
   declarations: [
     LancamentoCadastroComponent,
