@@ -9,6 +9,7 @@ import { ConfirmationService } from 'primeng/components/common/api';
 import { PessoaService } from './../pessoas/pessoa.service';
 import { CategoriaService } from './../caterias/categoria.service';
 import { LancamentoService } from './../lancamentos/lancamento.service';
+import { AuthService } from './../seguranca/auth.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ErrorHandlerService } from './error-handler.service';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
@@ -35,6 +36,7 @@ import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component'
     LancamentoService,
     CategoriaService,
     PessoaService,
+    AuthService,
     ConfirmationService,
     {provide: LOCALE_ID, useValue: 'pt-BR'}
   ]
