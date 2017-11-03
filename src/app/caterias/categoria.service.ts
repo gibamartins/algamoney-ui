@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 
+import { AuthHttp } from 'angular2-jwt';
+
 @Injectable()
 export class CategoriaService {
 
   url = 'http://localhost:8080/categorias';
 
-  constructor(private http: Http) { }
+  constructor(private http: AuthHttp) { }
 
   findAll() {
-    const headers = new Headers();
-    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
-
-    return this.http.get(`${this.url}`, { headers} )
+    return this.http.get(`${this.url}`)
     .toPromise()
     .then(response => response.json());
   }

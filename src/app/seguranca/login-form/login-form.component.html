@@ -1,5 +1,4 @@
 <div class="container" style="max-width: 400px; margin: auto;">
-
   <form #f="ngForm" autocomplete="off">
     <div class="ui-g-12 ui-fluid">
       <div class="ui-g">
@@ -18,7 +17,7 @@
 
         <div class="ui-g-12">
           <button pButton type="submit" label="Login" [disabled]="f.invalid"
-            (click)="logar(campoUsuario.value, campoSenha.value)"></button>
+            (click)="logar(campoUsuario.value, campoSenha.value); campoSenha.value = ''"></button>
         </div>
       </div>
     </div>

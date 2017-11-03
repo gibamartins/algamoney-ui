@@ -1,6 +1,7 @@
 import { Http, Headers, URLSearchParams } from '@angular/http';
 import { Injectable } from '@angular/core';
 
+import { AuthHttp } from 'angular2-jwt';
 import 'rxjs/add/operator/toPromise';
 
 import * as moment from 'moment';
@@ -21,7 +22,7 @@ export class LancamentoService {
 
   url = 'http://localhost:8080/lancamentos';
 
-  constructor(private http: Http) { }
+  constructor(private http: AuthHttp) { }
 
   pesquisar(filtro: LancamentoFiltro): Promise<any> {
 
@@ -56,10 +57,7 @@ export class LancamentoService {
   }
 
   findByCodigo(codigo: number): Promise<Lancamento> {
-    const headers = new Headers();
-    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
-
-    return this.http.get(`${this.url}/${codigo}`, { headers} )
+    return this.http.get(`${this.url}/${codigo}`)
     .toPromise()
     .then(response => {
       const lancamento = response.json();
@@ -71,32 +69,21 @@ export class LancamentoService {
   }
 
   save(lancamento: Lancamento): Promise<Lancamento> {
-    const headers = new Headers();
-    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
-    headers.append('Content-Type', 'application/json');
-
-    return this.http.post(this.url, JSON.stringify(lancamento), { headers} )
-    .toPromise()
-    .then(response => response.json());
+    return this.http.post(this.url, JSON.stringify(lancamento))
+      .toPromise()
+      .then(response => response.json());
   }
 
   update(lancamento: Lancamento): Promise<Lancamento> {
-    const headers = new Headers();
-    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
-    headers.append('Content-Type', 'application/json');
-
-    return this.http.put(`${this.url}/${lancamento.codigo}`, JSON.stringify(lancamento), { headers} )
-    .toPromise()
-    .then(response => response.json());
+    return this.http.put(`${this.url}/${lancamento.codigo}`, JSON.stringify(lancamento))
+      .toPromise()
+      .then(response => response.json());
   }
 
   delete(codigo: number): Promise<void> {
-    const headers = new Headers();
-    headers.append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
-
-    return this.http.delete(`${this.url}/${codigo}`, { headers} )
-    .toPromise()
-    .then(() => null);
+    return this.http.delete(`${this.url}/${codigo}`)
+      .toPromise()
+      .then(() => null);
   }
 
   private converterStringsParaDatas(lancamentos: Lancamento[]) {

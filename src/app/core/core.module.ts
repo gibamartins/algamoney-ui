@@ -2,6 +2,8 @@ import { NgModule, LOCALE_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
+import { JwtHelper } from 'angular2-jwt';
+
 import { ToastyModule } from 'ng2-toasty';
 import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdialog';
 import { ConfirmationService } from 'primeng/components/common/api';
@@ -13,6 +15,7 @@ import { AuthService } from './../seguranca/auth.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ErrorHandlerService } from './error-handler.service';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
+import { NaoAutorizadoComponent } from './nao-autorizado.component';
 
 @NgModule({
   imports: [
@@ -24,7 +27,7 @@ import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component'
     ConfirmDialogModule
     
   ],
-  declarations: [NavbarComponent, PaginaNaoEncontradaComponent],
+  declarations: [NavbarComponent, PaginaNaoEncontradaComponent, NaoAutorizadoComponent],
   exports: [
     NavbarComponent,
     // Como o Toasty e o ConfirmDialogModule são utilizados no appModule, é necessário exporta-los
@@ -37,6 +40,7 @@ import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component'
     CategoriaService,
     PessoaService,
     AuthService,
+    JwtHelper,
     ConfirmationService,
     {provide: LOCALE_ID, useValue: 'pt-BR'}
   ]
