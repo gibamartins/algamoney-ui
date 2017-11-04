@@ -1,3 +1,4 @@
+import { LogoutService } from './logout.service';
 import { Http, RequestOptions } from '@angular/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -40,7 +41,8 @@ export function authHttpServiceFactory(auth: AuthService, http: Http, options: R
       useFactory: authHttpServiceFactory,
       deps: [AuthService, Http, RequestOptions]
     },
-    AuthGuard
+    AuthGuard,
+    LogoutService
   ]
 })
 export class SegurancaModule { }

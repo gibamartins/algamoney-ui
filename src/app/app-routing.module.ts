@@ -10,7 +10,7 @@ const routes: Routes = [
     // Quando a url for somente o "/"" ou nada (full = combinação, poderia ter um prefix),
     // o angular redirecionará para a url lancamentos.
     {path: '', redirectTo: 'lancamentos', pathMatch: 'full'},
-    { path: 'nao-autorizado', component: NaoAutorizadoComponent },
+    {path: 'nao-autorizado', component: NaoAutorizadoComponent},
     {path: 'pagina-nao-encontrada', component: PaginaNaoEncontradaComponent},
     {path: '**', redirectTo: 'pagina-nao-encontrada'}
   ];

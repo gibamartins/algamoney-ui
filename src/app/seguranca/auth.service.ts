@@ -4,16 +4,20 @@ import { Http, Headers } from '@angular/http';
 import { JwtHelper } from 'angular2-jwt';
 import 'rxjs/add/operator/toPromise';
 
+import { environment } from './../../environments/environment';
+
 @Injectable()
 export class AuthService {
 
-  url:string = 'http://localhost:8080/oauth/token';
+  url:string;
   jwtPayload: any;
 
   constructor(
     private http: Http,
     private jwtHelper: JwtHelper) {
       this.carregarToken();
+
+      this.url = `${environment.apiUrl}/oauth/token`;
     }
 
   login(usuario: string, senha: string): Promise<void> {
@@ -102,5 +106,10 @@ export class AuthService {
     if (token) {
       this.armazenarToken(token);
     }
+  }
+
+  limparAccessToken() {
+    localStorage.removeItem('token');
+    this.jwtPayload = null;
   }
 }

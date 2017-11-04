@@ -6,6 +6,7 @@ import 'rxjs/add/operator/toPromise';
 
 import * as moment from 'moment';
 
+import { environment } from './../../environments/environment';
 import { Lancamento } from './../core/model';
 
 // Cria um contrato para os métodos chamadores só poderem passar parâmetros do tipo LancamentoFiltro
@@ -20,9 +21,11 @@ export class LancamentoFiltro {
 @Injectable()
 export class LancamentoService {
 
-  url = 'http://localhost:8080/lancamentos';
+  url: string;
 
-  constructor(private http: AuthHttp) { }
+  constructor(private http: AuthHttp) {
+    this.url = `${environment.apiUrl}/lancamentos`;
+  }
 
   pesquisar(filtro: LancamentoFiltro): Promise<any> {
 

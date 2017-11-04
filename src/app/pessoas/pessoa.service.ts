@@ -4,6 +4,7 @@ import { Http, Headers, URLSearchParams } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 
 import { Pessoa } from './../core/model';
+import { environment } from './../../environments/environment';
 
 // Cria um contrato para os métodos chamadores só poderem passar parâmetros do tipo PessoaFiltro
 export class PessoaFiltro {
@@ -15,9 +16,11 @@ export class PessoaFiltro {
 @Injectable()
 export class PessoaService {
 
-  url = 'http://localhost:8080/pessoas';
+  url: string;
   
-  constructor(private http: AuthHttp) { }
+  constructor(private http: AuthHttp) {
+    this.url = `${environment.apiUrl}/pessoas`;
+  }
 
   pesquisar(filtro: PessoaFiltro): Promise<any> {
 
